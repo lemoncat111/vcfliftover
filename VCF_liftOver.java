@@ -1,5 +1,5 @@
 /*
-java lift originalFile path_paftools path_file
+java VCF_liftOver originalFile path_paftools path_pafFile
 
 Author: Hui Chen
 Date: Jul.31.2022
@@ -14,10 +14,12 @@ public class VCF_liftOver {
 
 	public static void main(String[] args) throws IOException{
 
-		//get file name
+		//get file name and path from input
     	String originalFile = args[0];
     	String path_paftools = args[1];
-    	String path_file = args[2];
+    	String path_pafFile = args[2];
+
+    	
 
     	File found = new File("Found.vcf");
     	if(found.exists()){
@@ -47,7 +49,7 @@ public class VCF_liftOver {
 
     	//liftOver to get .bed
         try {
-        	String cmd = path_paftools+" liftover "+path_file+" tmp_3column.vcf";
+        	String cmd = path_paftools+" liftover "+path_pafFile+" tmp_3column.vcf";
             InputStream inputStream
                 = Runtime.getRuntime().exec(cmd).getInputStream();
  			Scanner s = new Scanner(inputStream);
