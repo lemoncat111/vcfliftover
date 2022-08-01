@@ -1,9 +1,10 @@
 /*
-java VCF_liftOver originalFile path_paftools path_pafFile
+javac -Xlint VCF_liftOver.java
+java VCF_liftOver path_originalFile path_paftools path_pafFile
 
 Author: Hui Chen
-Date: Jul.31.2022
-Version: 1.0
+Date: Aug.1.2022
+Version: 1.3
 */
 
 import java.util.*;
@@ -19,15 +20,19 @@ public class VCF_liftOver {
     	String path_paftools = args[1];
     	String path_pafFile = args[2];
 
-
+    	//get path of original file
 		File fo = new File(originalFile);
 		String parentPath = fo.getAbsoluteFile().getParent();
 
-
+		//delete result files if existed
     	File found = new File(parentPath+"/Found.vcf");
     	if(found.exists()){
     		found.delete();
     	}
+    	File notFound = new File(parentPath+"/NotFound.vcf");
+    	if(notFound.exists()){
+    		notFound.delete();
+    	}    	
 		
 		//create a hashmap to pair the names "NC_000001.11" to "chr1".
 		HashMap<String, String> chrName = new HashMap<>();
@@ -55,15 +60,6 @@ public class VCF_liftOver {
 		chrName.put("NC_000022.11", "chr22");
 		chrName.put("NC_000023.11", "chrX");
 		chrName.put("NC_000024.10", "chrY");
-
-
-/*		File file = new File(parentPath+"/chr_name.txt");
-    	Scanner inputFile = new Scanner(file);
-    	while (inputFile.hasNextLine()){
-    		String[] data = inputFile.nextLine().split("\\s+");
-    		chrName.put(data[6],data[10]);
-    	}
-    	inputFile.close();*/
 
 
     	//rewrite the first column to chr, second column, second column+1
