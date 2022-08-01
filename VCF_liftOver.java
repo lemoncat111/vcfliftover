@@ -19,22 +19,51 @@ public class VCF_liftOver {
     	String path_paftools = args[1];
     	String path_pafFile = args[2];
 
-    	
 
-    	File found = new File("Found.vcf");
+		File fo = new File(originalFile);
+		String parentPath = fo.getAbsoluteFile().getParent();
+
+
+    	File found = new File(parentPath+"/Found.vcf");
     	if(found.exists()){
     		found.delete();
     	}
 		
 		//create a hashmap to pair the names "NC_000001.11" to "chr1".
 		HashMap<String, String> chrName = new HashMap<>();
-		File file = new File("chr_name.txt");
+		chrName.put("NC_000001.11", "chr1");
+		chrName.put("NC_000002.12", "chr2");
+		chrName.put("NC_000003.12", "chr3");
+		chrName.put("NC_000004.12", "chr4");
+		chrName.put("NC_000005.10", "chr5");
+		chrName.put("NC_000006.12", "chr6");
+		chrName.put("NC_000007.14", "chr7");
+		chrName.put("NC_000008.11", "chr8");
+		chrName.put("NC_000009.12", "chr9");
+		chrName.put("NC_000010.11", "chr10");
+		chrName.put("NC_000011.10", "chr11");
+		chrName.put("NC_000012.12", "chr12");
+		chrName.put("NC_000013.11", "chr13");
+		chrName.put("NC_000014.9", "chr14");
+		chrName.put("NC_000015.10", "chr15");
+		chrName.put("NC_000016.10", "chr16");
+		chrName.put("NC_000017.11", "chr17");
+		chrName.put("NC_000018.10", "chr18");
+		chrName.put("NC_000019.10", "chr19");
+		chrName.put("NC_000020.11", "chr20");
+		chrName.put("NC_000021.9", "chr21");
+		chrName.put("NC_000022.11", "chr22");
+		chrName.put("NC_000023.11", "chrX");
+		chrName.put("NC_000024.10", "chrY");
+
+
+/*		File file = new File(parentPath+"/chr_name.txt");
     	Scanner inputFile = new Scanner(file);
     	while (inputFile.hasNextLine()){
     		String[] data = inputFile.nextLine().split("\\s+");
     		chrName.put(data[6],data[10]);
     	}
-    	inputFile.close();
+    	inputFile.close();*/
 
 
     	//rewrite the first column to chr, second column, second column+1
@@ -90,10 +119,10 @@ public class VCF_liftOver {
 				if (trans.containsKey(key_vcf)){
 					String[] toWrite = trans.get(key_vcf).split(" ");
 					String newline = toWrite[0]+"\t"+toWrite[1]+"\t"+data_vcf3[2];	
-					writeToFile("Found.vcf", newline);
+					writeToFile(parentPath+"/Found.vcf", newline);
 				}
 				else {	
-					writeToFile("NotFound.vcf", line_vcf);
+					writeToFile(parentPath+"/NotFound.vcf", line_vcf);
 				}
 	    	}
 			if(input_vcf != null)
